@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ef8494">
+  <title>For Evie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=DM+Sans:wght@400;500;600&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f2f1e9;
+      --ink: #202c27;
+      --muted: #64716a;
+      --leaf: #385b49;
+      --coral: #c56e55;
+      --line: #d7d9cf;
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 12% 18%, rgba(197, 110, 85, .09), transparent 34%),
+        radial-gradient(ellipse at 88% 82%, rgba(56, 91, 73, .1), transparent 38%),
+        var(--paper);
+      font-family: var(--sans);
+    }
+
+    button, input { font: inherit; }
+
+    [hidden] { display: none !important; }
+
+    .gate {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 20px;
+    }
+
+    .gate-inner {
+      width: min(100%, 410px);
+      animation: arrive .7s both;
+    }
+
+    .overline, .eyebrow {
+      margin: 0;
+      color: var(--leaf);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .gate h1 {
+      margin: 18px 0 10px;
+      font: 400 clamp(3.2rem, 12vw, 5rem)/.98 var(--serif);
+    }
+
+    .gate-copy {
+      max-width: 31ch;
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .password-label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 9px;
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      min-height: 50px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      outline: none;
+      background: rgba(255,255,255,.62);
+      color: var(--ink);
+    }
+
+    input:focus { border-color: var(--leaf); box-shadow: 0 0 0 3px rgba(56,91,73,.12); }
+
+    .unlock {
+      flex: 0 0 auto;
+      min-height: 50px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--leaf);
+      color: white;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .unlock:hover { background: #294536; }
+    .unlock:active { transform: translateY(1px); }
+
+    .error {
+      min-height: 1.4em;
+      margin: 10px 0 0;
+      color: #a44837;
+      font-size: .84rem;
+    }
+
+    .page { min-height: 100vh; padding: 28px clamp(20px, 6vw, 88px) 72px; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark { font: 500 1.35rem var(--serif); }
+
+    .lock-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .82rem;
+    }
+
+    .lock-button svg { width: 16px; height: 16px; }
+
+    .content { max-width: 1220px; margin: 0 auto; }
+
+    .intro {
+      min-height: min(66vh, 620px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 0 84px;
+    }
+
+    .intro h1 {
+      max-width: 900px;
+      margin: 20px 0 22px;
+      font: 400 clamp(4rem, 11vw, 9.5rem)/.91 var(--serif);
+      letter-spacing: 0;
+    }
+
+    .intro h1 span { color: var(--coral); font-style: italic; }
+
+    .intro-copy {
+      max-width: 430px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .marker {
+      width: 54px;
+      height: 2px;
+      margin-top: 34px;
+      background: var(--coral);
+    }
+
+    .lower-note {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .lower-note span { color: var(--coral); font: 400 1.6rem var(--serif); }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .gate-inner { padding: 0 4px; }
+      .field-row { flex-direction: column; }
+      .unlock { width: 100%; }
+      .intro { min-height: 62vh; }
+      .lower-note { align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    :root {
+      color-scheme: light;
+      --pink: #ef8494;
+      --pink-light: #f9dce0;
+      --rose: #a63c59;
+      --button-pink: #d73268;
+      --cream: #fffdf7;
+      --paper: #fffefa;
+      --ink: #573d43;
+      --muted: #8d6a71;
+      --border: #e6b9c0;
+      --script: "Dancing Script", "Brush Script MT", cursive;
+      --serif: "Lora", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+    }
+
+    body {
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+    }
+
+    .gate {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      min-height: 100svh;
+      background: var(--pink);
+      background-image: radial-gradient(ellipse at 18% 82%, rgba(255,255,255,.13), transparent 40%);
+    }
+
+    .gate::before, .gate::after {
+      position: absolute;
+      color: rgba(165, 49, 80, .16);
+      font-size: 30px;
+      pointer-events: none;
+    }
+
+    .gate::before { content: "♥"; top: 13%; left: 13%; transform: rotate(-18deg); }
+    .gate::after { content: "♥"; right: 12%; bottom: 14%; transform: rotate(14deg); }
+
+    .gate-card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 390px);
+      padding: 38px 34px 32px;
+      border: 1px solid rgba(255,255,255,.68);
+      border-radius: 12px;
+      background: var(--cream);
+      box-shadow: 0 18px 55px rgba(106, 34, 55, .15);
+      animation: arrive .7s both;
+    }
+
+    .gate .gate-title {
+      margin: 0 0 20px;
+      color: var(--rose);
+      font: 600 2.15rem/1.15 var(--script);
+      text-align: center;
+    }
+
+    .field-row { display: flex; flex-direction: column; gap: 12px; }
+
+    .gate input {
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--rose);
+      border-radius: 5px;
+      background: #fff;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .gate input:focus { border-color: var(--button-pink); box-shadow: 0 0 0 3px rgba(215,50,104,.12); }
+
+    .unlock {
+      min-height: 42px;
+      padding: 0 22px;
+      border-radius: 6px;
+      background: var(--button-pink);
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .unlock:hover { background: #bd2858; }
+
+    .error { margin: 10px 0 0; color: #a44854; text-align: center; }
+
+    .site.page { min-height: 100vh; padding: 0 0 54px; background: var(--paper); }
+
+    .love-header {
+      position: relative;
+      overflow: hidden;
+      padding: 23px 20px 20px;
+      background: var(--pink);
+      text-align: center;
+    }
+
+    .header-hearts {
+      margin: 0 0 14px;
+      color: var(--rose);
+      font-size: .9rem;
+      letter-spacing: 12px;
+      opacity: .8;
+    }
+
+    .site-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .nav-button {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 16px;
+      border: 1px solid rgba(177, 69, 96, .13);
+      border-radius: 999px;
+      background: var(--cream);
+      color: var(--rose);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 600;
+      box-shadow: 0 3px 9px rgba(105, 36, 55, .08);
+      transition: transform .18s, background .18s, box-shadow .18s;
+    }
+
+    .nav-button:hover { transform: translateY(-2px); box-shadow: 0 5px 13px rgba(105, 36, 55, .13); }
+    .nav-button[aria-selected="true"] { background: #fff; color: #bb3158; }
+    .nav-icon { font-size: 1rem; line-height: 1; }
+
+    .content-shell { width: min(920px, calc(100% - 32px)); margin: 24px auto 0; }
+
+    .tab-panel { animation: arrive .35s both; }
+
+    .paper-panel {
+      min-height: 310px;
+      padding: clamp(20px, 4vw, 36px);
+      border: 1px solid #f0d7d9;
+      border-radius: 10px;
+      background: var(--cream);
+      box-shadow: 0 5px 18px rgba(125, 68, 79, .055);
+    }
+
+    .panel-title {
+      margin: 0 0 20px;
+      color: #67434a;
+      font: 600 clamp(1.25rem, 3vw, 1.65rem)/1.3 var(--serif);
+    }
+
+    .letter-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fffaf8;
+    }
+
+    .letter-card summary {
+      min-height: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 11px 16px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .letter-card summary::-webkit-details-marker { display: none; }
+    .script-title { color: var(--rose); font: 600 1.55rem/1.2 var(--script); }
+    .open-hint { color: var(--muted); font-size: .75rem; white-space: nowrap; }
+
+    .letter-body {
+      padding: 0 18px 18px;
+      color: #70565b;
+      font-size: .9rem;
+      line-height: 1.85;
+    }
+
+    .letter-body p { margin: 0 0 12px; }
+    .signature { color: var(--rose); font: 600 1.4rem var(--script); }
+
+    .note-list { display: grid; gap: 10px; }
+
+    .note-row {
+      padding: 15px 17px;
+      border: 1px solid #f0d1d6;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #fce8ea 0 8px, #fff 8px);
+      color: #70565b;
+      line-height: 1.6;
+    }
+
+    .music-note {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 12px;
+      border: 1px solid #f0d1d6;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #fff8f5, #fde9ec);
+      text-align: center;
+    }
+
+    .music-note .big-note { color: var(--button-pink); font-size: 2rem; }
+    .music-note p { margin: 0; color: var(--muted); }
+
+    .song-list { display: grid; gap: 9px; margin-top: 16px; }
+
+    .song-row {
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 3px 14px;
+      padding: 11px 15px;
+      border: 1px solid #f0d1d6;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background .18s, border-color .18s;
+    }
+
+    .song-row:hover { border-color: #df9eaa; background: #fff9f8; }
+    .song-title { font-weight: 600; }
+    .song-artist { color: var(--muted); font-size: .82rem; }
+    .song-link { grid-column: 2; grid-row: 1 / span 2; color: var(--rose); font-size: 1.1rem; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+
+    .photo-frame {
+      aspect-ratio: 4 / 5;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 6px;
+      border: 1px solid #e8bec5;
+      border-radius: 7px;
+      background: #fff8f5;
+    }
+
+    .photo-frame img { display: block; width: 100%; height: 100%; border-radius: 4px; object-fit: contain; }
+
+    .lock-row { display: flex; justify-content: center; margin: 24px auto 0; }
+
+    .lock-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border: 1px solid #efd6d9;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .78rem;
+    }
+
+    .lock-button svg { width: 14px; height: 14px; }
+
+    @media (max-width: 520px) {
+      .gate-card { padding: 32px 24px 26px; }
+      .love-header { padding: 20px 14px 17px; }
+      .site-nav { gap: 7px; }
+      .nav-button { min-height: 36px; padding: 0 12px; font-size: .78rem; }
+      .content-shell { width: calc(100% - 22px); margin-top: 14px; }
+      .paper-panel { min-height: 270px; padding: 20px 16px; }
+      .letter-card summary { align-items: flex-start; flex-direction: column; gap: 5px; }
+      .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <main id="gate" class="gate">
+    <div class="gate-card">
+      <h1 class="gate-title">Enter the secret code</h1>
+      <form id="password-form">
+        <div class="field-row">
+          <input id="password" name="password" type="password" autocomplete="current-password" required aria-label="Secret code" aria-describedby="password-error">
+          <button class="unlock" type="submit">Enter</button>
+        </div>
+        <p id="password-error" class="error" role="alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <main id="site" class="site page" hidden>
+    <header class="love-header">
+      <p class="header-hearts" aria-hidden="true">♥ ♥ ♥</p>
+      <nav class="site-nav" aria-label="Site sections">
+        <button class="nav-button" type="button" data-view="letter" aria-selected="true"><span class="nav-icon" aria-hidden="true">♥</span> Love Letter</button>
+        <button class="nav-button" type="button" data-view="music" aria-selected="false"><span class="nav-icon" aria-hidden="true">♫</span> Music</button>
+        <button class="nav-button" type="button" data-view="notes" aria-selected="false"><span class="nav-icon" aria-hidden="true">▤</span> Notes</button>
+        <button class="nav-button" type="button" data-view="gallery" aria-selected="false"><span class="nav-icon" aria-hidden="true">▧</span> Gallery</button>
+      </nav>
+    </header>
+
+    <div class="content-shell">
+      <section class="tab-panel" id="panel-letter" aria-labelledby="letter-heading">
+        <div class="paper-panel">
+          <h1 class="panel-title" id="letter-heading">My Dearest</h1>
+          <details class="letter-card" open>
+            <summary><span class="script-title">A Letter For You</span><span class="open-hint">♡ Click to open</span></summary>
+            <div class="letter-body">
+              <p>Dear Bobo,</p>
+              <p>Every day with you feels like a beautiful gift. Thank you for making even the ordinary moments feel special. I hope this little corner reminds you how loved you are.</p>
+              <p class="signature">Always yours ♡</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-music" aria-labelledby="music-heading" hidden>
+        <div class="paper-panel">
+          <h1 class="panel-title" id="music-heading">A Song For Us</h1>
+          <div class="music-note"><span class="big-note" aria-hidden="true">♫</span><p>A few Urdu melodies for my favorite person.</p></div>
+          <div class="song-list" aria-label="Romantic Urdu songs">
+            <a class="song-row" href="https://www.youtube.com/results?search_query=Afreen+Afreen+Coke+Studio+Rahat+Fateh+Ali+Khan+Momina+Mustehsan" target="_blank" rel="noopener noreferrer">
+              <span class="song-title">Afreen Afreen</span><span class="song-artist">Rahat Fateh Ali Khan &amp; Momina Mustehsan</span><span class="song-link" aria-hidden="true">↗</span>
+            </a>
+            <a class="song-row" href="https://www.youtube.com/results?search_query=Tera+Woh+Pyar+Nawazishein+Karam+Asim+Azhar+Momina+Mustehsan+Coke+Studio" target="_blank" rel="noopener noreferrer">
+              <span class="song-title">Tera Woh Pyaar (Nawazishein Karam)</span><span class="song-artist">Asim Azhar &amp; Momina Mustehsan</span><span class="song-link" aria-hidden="true">↗</span>
+            </a>
+            <a class="song-row" href="https://www.youtube.com/results?search_query=Aaj+Jaane+Ki+Zid+Na+Karo+Farida+Khanum" target="_blank" rel="noopener noreferrer">
+              <span class="song-title">Aaj Jaane Ki Zid Na Karo</span><span class="song-artist">Farida Khanum</span><span class="song-link" aria-hidden="true">↗</span>
+            </a>
+            <a class="song-row" href="https://www.youtube.com/results?search_query=Mere+Rashke+Qamar+Rahat+Fateh+Ali+Khan" target="_blank" rel="noopener noreferrer">
+              <span class="song-title">Mere Rashke Qamar</span><span class="song-artist">Rahat Fateh Ali Khan</span><span class="song-link" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-notes" aria-labelledby="notes-heading" hidden>
+        <div class="paper-panel">
+          <h1 class="panel-title" id="notes-heading">Little Reminders</h1>
+          <div class="note-list">
+            <div class="note-row">You are loved more than you know. ♡</div>
+            <div class="note-row">Take a breath. You’re doing better than you think.</div>
+            <div class="note-row">No matter what, I’m always in your corner.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-gallery" aria-labelledby="gallery-heading" hidden>
+        <div class="paper-panel">
+          <h1 class="panel-title" id="gallery-heading">Our Little Moments</h1>
+          <div class="gallery-grid" aria-label="Photo collection">
+            <figure class="photo-frame"><img src="IMG-20250506-WA0033.jpg" alt="Portrait in a patterned outfit and pearl necklace" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250525-WA0005.jpg" alt="Portrait in a light blue outfit" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250626-WA0003.jpg" alt="Portrait in a navy and gold embroidered dress" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250626-WA0004.jpg" alt="Full-length portrait in a navy and gold embroidered dress" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250706-WA0008.jpg" alt="Close-up portrait with a pink scarf and heart filter" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250728-WA0002.jpg" alt="Outdoor portrait in a peach outfit with an orange scarf" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20250924-WA0001.jpg" alt="Portrait seated among flowers in a dark embroidered outfit" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20251020-WA0025.jpg" alt="Portrait in a blue outfit with embroidered details" loading="lazy"></figure>
+            <figure class="photo-frame"><img src="IMG-20251101-WA0010.jpg" alt="Portrait in a lilac T-shirt" loading="lazy"></figure>
+          </div>
+        </div>
+      </section>
+
+      <div class="lock-row">
+        <button id="lock" class="lock-button" type="button" title="Lock the page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>
+          <span>Lock</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const accessCode = "Bobo2012";
+    const gate = document.querySelector("#gate");
+    const site = document.querySelector("#site");
+    const form = document.querySelector("#password-form");
+    const passwordInput = document.querySelector("#password");
+    const error = document.querySelector("#password-error");
+
+    function unlock() {
+      gate.hidden = true;
+      site.hidden = false;
+      sessionStorage.setItem("evie-site-unlocked", "true");
+    }
+
+    if (sessionStorage.getItem("evie-site-unlocked") === "true") unlock();
+
+    document.querySelectorAll(".nav-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const selectedView = button.dataset.view;
+        document.querySelectorAll(".nav-button").forEach((navButton) => {
+          navButton.setAttribute("aria-selected", String(navButton === button));
+        });
+        document.querySelectorAll(".tab-panel").forEach((panel) => {
+          panel.hidden = panel.id !== `panel-${selectedView}`;
+        });
+      });
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (passwordInput.value === accessCode) {
+        error.textContent = "";
+        unlock();
+      } else {
+        error.textContent = "That password doesn’t look right. Try again.";
+        passwordInput.select();
+      }
+    });
+
+    document.querySelector("#lock").addEventListener("click", () => {
+      sessionStorage.removeItem("evie-site-unlocked");
+      site.hidden = true;
+      gate.hidden = false;
+      passwordInput.value = "";
+      passwordInput.focus();
+    });
+  </script>
+</body>
+</html>
